@@ -1,0 +1,43 @@
+/* =========================================
+   🌊 GLOBAL COLOR PALETTE — LIGHT + DARK
+   ========================================= */
+:root {
+  --twilight: #03045e;
+  --french-blue: #023e8a;
+  --bright-teal: #0077b6;
+  --blue-green: #0096c7;
+  --turquoise: #00b4d8;
+  --sky-aqua: #48cae4;
+  --frosted-blue: #90e0ef;
+  --frosted-blue2: #ade8f4;
+  --light-cyan: #eef8fa;
+
+  /* Light Mode Core */
+  --ifm-color-primary: var(--bright-teal);
+  --ifm-color-primary-dark: var(--french-blue);
+  --ifm-color-primary-light: var(--sky-aqua);
+  --ifm-navbar-background-color: var(--light-cyan);
+  --ifm-footer-background-color: var(--frosted-blue2);
+
+  /* Text Colors */
+  --heading-color: var(--twilight);
+  --text-color: #0d1b2a;
+  --card-bg: #ffffff;
+  --card-hover-bg: var(--light-cyan);
+}
+
+/* ---------------------- DARK MODE ---------------------- */
+[data-theme='dark'] {
+  --ifm-color-primary: var(--sky-aqua);
+  --ifm-color-primary-dark: var(--bright-teal);
+  --ifm-color-primary-light: var(--turquoise);
+
+  --ifm-navbar-background-color: #021526;
+  --ifm-footer-background-color: #031d2c;
+
+  --heading-color: var(--light-cyan);
+  --text-color: #e0f7ff;
+
+  --card-bg: #06243a;
+  --card-hover-bg: #073957;
+}

@@ -1,55 +1,69 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+Version change: None (initial creation) → 1.0.0
+List of modified principles:
+  - PRINCIPLE_1_NAME → Accuracy through primary-source verification
+  - PRINCIPLE_2_NAME → Clarity for an academic audience (computer science/engineering students)
+  - PRINCIPLE_3_NAME → Reproducibility
+  - PRINCIPLE_4_NAME → Rigor
+  - PRINCIPLE_5_NAME → Zero plagiarism tolerance
+Added sections:
+  - Text Quality Requirements
+  - Output Format & Content Requirements
+Removed sections:
+  - None (placeholders replaced)
+Templates requiring updates:
+  - .specify/templates/plan-template.md ⚠ pending
+  - .specify/templates/spec-template.md ⚠ pending
+  - .specify/templates/tasks-template.md ⚠ pending
+  - .specify/templates/commands/sp.constitution.md ✅ updated (current file)
+Follow-up TODOs:
+  - None
+-->
+# Academic textbook using Docusaurus Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Accuracy through primary-source verification
+All factual claims must include citations from primary sources.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Clarity for an academic audience (computer science/engineering students)
+Writing level: Flesch-Kincaid Grade 10–12. Tone: academic, precise, neutral. Explanations must be clear and unambiguous. Include definitions when introducing technical terms.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Reproducibility
+All claims must be traceable to their original sources. Citation style: APA.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Rigor
+Peer-reviewed and scholarly sources preferred. Minimum 15 sources, with 50% peer-reviewed. Acceptable sources: Peer-reviewed journals, Academic books, University publications, Conference papers, Reputable robotics/AI research.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Zero plagiarism tolerance
+Plagiarism check must ensure 0% similarity. Agent should self-audit for broken citations, unsupported claims, missing references, incorrect formatting.
 
-### [PRINCIPLE_6_NAME]
+## Text Quality Requirements
 
+Writing level: Flesch-Kincaid Grade 10–12
+Tone: academic, precise, neutral
+Explanations must be clear and unambiguous
+Include definitions when introducing technical terms
 
-[PRINCIPLE__DESCRIPTION]
+## Output Format & Content Requirements
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Structured Markdown compatible with Docusaurus
+PDF version with embedded APA citations
+Total word count: 5,000–7,000 words
+Internal structure: Title Page, Preface, Chapter organization, Summary sections, References section (APA format)
+Project will cover: Physical AI & Humanoid Robotics (topic placeholder – final topic may change later)
+Produced through h labs
+Deployed on GitHub Pages
+Avoid: Blogs without citations, Non-expert opinions, AI-generated claims without sources
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All claims must be verified before inclusion.
+Must pass a final fact-checking review.
+Constitution supersedes all other practices; Amendments require documentation, approval, migration plan.
+All PRs/reviews must verify compliance.
+Complexity must be justified.
+Use CLAUDE.md for runtime development guidance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-04 | **Last Amended**: 2025-12-04
