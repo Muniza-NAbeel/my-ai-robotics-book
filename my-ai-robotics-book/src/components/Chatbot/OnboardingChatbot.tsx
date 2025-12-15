@@ -14,7 +14,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import styles from './Chatbot.module.css';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://muniza-nabeel-hackathon.hf.space';
 const STORAGE_KEY = 'onboarding_session';
 
 // Saved session state structure for localStorage

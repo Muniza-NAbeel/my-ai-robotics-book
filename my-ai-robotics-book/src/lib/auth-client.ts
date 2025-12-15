@@ -3,7 +3,7 @@
  * Replaces Better Auth with direct FastAPI calls
  */
 
-const AUTH_URL = "http://localhost:8000/api/auth";
+const AUTH_URL = "https://muniza-nabeel-hackathon.hf.space/api/auth";
 
 interface User {
   id: string;

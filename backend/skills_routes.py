@@ -47,8 +47,8 @@ skills_router = APIRouter(prefix="/api/skills", tags=["skills"])
 async def generate_glossary(request: GlossaryRequest):
     """Generate a glossary definition for a technical term."""
     try:
-        result = main_agent.skills.glossary.run(term=request.term)
-        return SkillResponse(result=result["result"])
+        result = main_agent.skills.glossary.run(query=request.term)
+        return SkillResponse(result=result["response"])
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -59,8 +59,8 @@ async def generate_glossary(request: GlossaryRequest):
 async def generate_diagram(request: DiagramRequest):
     """Generate an ASCII diagram for a topic."""
     try:
-        result = main_agent.skills.diagrams.run(topic=request.topic)
-        return SkillResponse(result=result["result"])
+        result = main_agent.skills.diagrams.run(query=request.topic)
+        return SkillResponse(result=result["response"])
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -71,8 +71,8 @@ async def generate_diagram(request: DiagramRequest):
 async def translate_to_urdu(request: TranslateRequest):
     """Translate English text to Urdu."""
     try:
-        result = main_agent.skills.translate.run(text=request.text)
-        return SkillResponse(result=result["result"])
+        result = main_agent.skills.translate.run(query=request.text)
+        return SkillResponse(result=result["response"])
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -83,8 +83,8 @@ async def translate_to_urdu(request: TranslateRequest):
 async def generate_exercises(request: ExercisesRequest):
     """Generate practice exercises from chapter content."""
     try:
-        result = main_agent.skills.exercises.run(chapter=request.chapter)
-        return SkillResponse(result=result["result"])
+        result = main_agent.skills.exercises.run(query=request.chapter)
+        return SkillResponse(result=result["response"])
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:

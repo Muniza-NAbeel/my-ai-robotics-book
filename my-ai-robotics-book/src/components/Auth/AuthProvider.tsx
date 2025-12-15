@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { authClient } from '../../lib/auth-client';
 
-// API URL - now using single FastAPI backend
-const FASTAPI_URL = 'http://localhost:8000';
+// API URL - using Hugging Face Space backend
+const FASTAPI_URL = 'https://muniza-nabeel-hackathon.hf.space';
 
 interface User {
   user_id: string;

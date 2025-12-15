@@ -11,8 +11,10 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import styles from './Chatbot.module.css';
 
-// Configure your backend URL here (replace with your deployed backend URL in production)
-const API_BASE_URL = 'http://localhost:8000';
+// Configure your backend URL here
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://muniza-nabeel-hackathon.hf.space'
+  : 'https://muniza-nabeel-hackathon.hf.space';  // Use HF Space for both dev and prod
 
 interface Message {
   id: number;
