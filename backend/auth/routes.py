@@ -78,12 +78,13 @@ async def better_auth_signup(request: BetterAuthSignupRequest, response: Respons
     session_token = AuthService.create_session(user['id'])
 
     # Set session cookie (Better Auth format)
+    # For cross-origin (Vercel -> HF Space): secure=True, samesite="none"
     response.set_cookie(
         key="session_token",
         value=session_token,
         httponly=True,
-        secure=False,
-        samesite="lax",
+        secure=True,
+        samesite="none",
         max_age=86400
     )
 
@@ -117,13 +118,13 @@ async def better_auth_signin(request: BetterAuthSigninRequest, response: Respons
     # Create session
     session_token = AuthService.create_session(user['id'])
 
-    # Set session cookie
+    # Set session cookie (cross-origin)
     response.set_cookie(
         key="session_token",
         value=session_token,
         httponly=True,
-        secure=False,
-        samesite="lax",
+        secure=True,
+        samesite="none",
         max_age=86400
     )
 
@@ -149,7 +150,7 @@ async def better_auth_signout(request: Request, response: Response):
     if token:
         AuthService.invalidate_session(token)
 
-    response.delete_cookie(key="session_token", httponly=True, secure=False, samesite="lax")
+    response.delete_cookie(key="session_token", httponly=True, secure=True, samesite="none")
 
     return {"success": True}
 
@@ -230,8 +231,8 @@ async def signup(request: SignupRequest, response: Response):
         key="session_token",
         value=session_token,
         httponly=True,
-        secure=False,
-        samesite="lax",
+        secure=True,
+        samesite="none",
         max_age=86400
     )
 
@@ -259,8 +260,8 @@ async def signin(request: SigninRequest, response: Response):
         key="session_token",
         value=session_token,
         httponly=True,
-        secure=False,
-        samesite="lax",
+        secure=True,
+        samesite="none",
         max_age=86400
     )
 
@@ -275,7 +276,7 @@ async def logout(request: Request, response: Response):
     if token:
         AuthService.invalidate_session(token)
 
-    response.delete_cookie(key="session_token", httponly=True, secure=False, samesite="lax")
+    response.delete_cookie(key="session_token", httponly=True, secure=True, samesite="none")
 
     return LogoutResponse(message="Logged out successfully")
 
@@ -485,13 +486,13 @@ async def complete_onboarding(request: OnboardingCompleteRequest, response: Resp
     # Create auth session
     session_token = AuthService.create_session(user['id'])
 
-    # Set session cookie
+    # Set session cookie (cross-origin)
     response.set_cookie(
         key="session_token",
         value=session_token,
         httponly=True,
-        secure=False,
-        samesite="lax",
+        secure=True,
+        samesite="none",
         max_age=86400
     )
 
