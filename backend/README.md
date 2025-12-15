@@ -1,3 +1,12 @@
+---
+title: AI Robotics Book Backend
+emoji: 🤖
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
+
 # RAG Chatbot Backend
 
 This is a production-ready FastAPI backend for a Retrieval-Augmented Generation (RAG) chatbot that processes Docusaurus book content.
