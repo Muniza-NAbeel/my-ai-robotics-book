@@ -1,0 +1,313 @@
+openapi: 3.0.3
+info:
+  title: AI-native Textbook Multi-Agent API
+  description: |
+    API for the AI-native Textbook System with skill-based sub-agents.
+    Uses OpenAI-Agents-SDK with Gemini model for AI-powered responses.
+  version: 2.0.0
+  contact:
+    name: My AI Robotics Book Team
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: YOUR_BACKEND_URL
+    description: Production server (configure at deployment)
+
+paths:
+  /api/chatbot:
+    post:
+      summary: Send message to chatbot
+      description: |
+        Send a query to the chatbot, optionally specifying a skill.
+        - With skill: Routes to specialized sub-agent (glossary, diagram, translate, exercises)
+        - Without skill: Routes to general assistant agent
+      operationId: chatbot
+      tags:
+        - Chatbot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatbotRequest'
+            examples:
+              glossary:
+                summary: Glossary skill request
+                value:
+                  query: "What is a Robot?"
+                  skill: "glossary"
+              diagram:
+                summary: Diagram skill request
+                value:
+                  query: "Robot Architecture"
+                  skill: "diagram"
+              translate:
+                summary: Translate skill request
+                value:
+                  query: "A robot is a machine that can perform tasks autonomously."
+                  skill: "translate"
+              exercises:
+                summary: Exercises skill request
+                value:
+                  query: "Introduction to Sensors"
+                  skill: "exercises"
+              general:
+                summary: General query (no skill)
+                value:
+                  query: "Tell me about AI in robotics"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatbotResponse'
+              examples:
+                glossary:
+                  summary: Glossary response
+                  value:
+                    response: "A Robot is a machine capable of carrying out complex actions automatically. It can be programmed to perform tasks independently or semi-autonomously. Examples include industrial robots, drones, and humanoid robots like ASIMO."
+                diagram:
+                  summary: Diagram response
+                  value:
+                    response: |
+                      ```
+                      ┌─────────────────────────────────────┐
+                      │           ROBOT ARCHITECTURE         │
+                      └─────────────────────────────────────┘
+                                       │
+                        ┌──────────────┼──────────────┐
+                        ▼              ▼              ▼
+                   ┌─────────┐   ┌─────────┐   ┌─────────┐
+                   │ SENSORS │   │CONTROLLER│   │ACTUATORS│
+                   └─────────┘   └─────────┘   └─────────┘
+
+                      The controller processes sensor data
+                      and sends commands to actuators.
+                      ```
+                translate:
+                  summary: Translation response
+                  value:
+                    response: "روبوٹ ایک مشین ہے جو خود مختار طریقے سے کام انجام دے سکتی ہے۔"
+                exercises:
+                  summary: Exercises response
+                  value:
+                    response: |
+                      **Easy:** What is a sensor? Name two types of sensors used in robotics.
+
+                      **Medium:** Explain how a proximity sensor works and describe a practical application in robotics.
+
+                      **Advanced:** Design a sensor fusion system that combines data from multiple sensors to improve robot navigation accuracy.
+        '400':
+          description: Bad request (empty query)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Query cannot be empty"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Could not generate response. Please try again."
+        '504':
+          description: Gateway timeout (LLM timeout)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Request timed out. Please try again."
+
+  # Legacy skill routes (from previous implementation, kept for backwards compatibility)
+  /api/skills/glossary:
+    post:
+      summary: Generate glossary definition (Legacy)
+      description: Legacy endpoint - prefer /api/chatbot with skill parameter
+      deprecated: true
+      tags:
+        - Skills (Legacy)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GlossaryRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillResponse'
+
+  /api/skills/diagram:
+    post:
+      summary: Generate ASCII diagram (Legacy)
+      description: Legacy endpoint - prefer /api/chatbot with skill parameter
+      deprecated: true
+      tags:
+        - Skills (Legacy)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiagramRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillResponse'
+
+  /api/skills/translate:
+    post:
+      summary: Translate to Urdu (Legacy)
+      description: Legacy endpoint - prefer /api/chatbot with skill parameter
+      deprecated: true
+      tags:
+        - Skills (Legacy)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslateRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillResponse'
+
+  /api/skills/exercises:
+    post:
+      summary: Generate exercises (Legacy)
+      description: Legacy endpoint - prefer /api/chatbot with skill parameter
+      deprecated: true
+      tags:
+        - Skills (Legacy)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExercisesRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillResponse'
+
+components:
+  schemas:
+    ChatbotRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          description: User query or message
+          example: "What is a Robot?"
+        skill:
+          type: string
+          enum:
+            - glossary
+            - diagram
+            - translate
+            - exercises
+          description: Optional skill to invoke
+          example: "glossary"
+
+    ChatbotResponse:
+      type: object
+      required:
+        - response
+      properties:
+        response:
+          type: string
+          description: Generated response from the agent
+          example: "A Robot is a machine capable of carrying out complex actions automatically."
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "Query cannot be empty"
+
+    # Legacy request models
+    GlossaryRequest:
+      type: object
+      required:
+        - term
+      properties:
+        term:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Technical term to define
+
+    DiagramRequest:
+      type: object
+      required:
+        - topic
+      properties:
+        topic:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Topic to diagram
+
+    TranslateRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: English text to translate
+
+    ExercisesRequest:
+      type: object
+      required:
+        - chapter
+      properties:
+        chapter:
+          type: string
+          minLength: 1
+          maxLength: 5000
+          description: Chapter content or topic
+
+    SkillResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: string
+          description: Generated output from the skill
+
+tags:
+  - name: Chatbot
+    description: Main chatbot endpoint with skill routing
+  - name: Skills (Legacy)
+    description: Legacy individual skill endpoints (deprecated)

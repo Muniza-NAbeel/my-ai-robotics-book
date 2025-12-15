@@ -1,30 +1,69 @@
+"""AI-Native Textbook API with authentication and personalization.
+
+This is the main FastAPI application that integrates:
+- Better Auth compatible authentication
+- User profile management
+- Skill-based AI agents (Glossary, Diagram, Translation, Quiz)
+- Personalized chatbot responses based on user background
+"""
+
 import requests
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import xml.etree.ElementTree as ET
 import trafilatura
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct
-import cohere 
+import cohere
 import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
-from my_agent import agent, Runner 
+from my_agent import agent, Runner
+from skills_routes import skills_router
+from skill_agents import MainOrchestratorAgent
+
+# Import auth and profile routers
+from auth import auth_router, api_auth_router
+from auth.middleware import get_session_token
+from auth.service import AuthService
+from user_profile import profile_router
+from user_profile.service import ProfileService
 
 
 class QueryRequest(BaseModel):
     question: str
     selected_text: str | None = None
 
+
+class ChatbotRequest(BaseModel):
+    query: str
+    skill: str | None = None
+    # User can optionally pass user_id for testing
+    user_id: str | None = None
+
 load_dotenv()
-app = FastAPI()   # ✅ ADD THIS
+app = FastAPI(
+    title="AI-Native Textbook API",
+    description="Backend API for AI-Native Robotics Textbook with authentication and personalization",
+    version="1.0.0"
+)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # yahan tumhara frontend URL
+    allow_origins=["http://localhost:3000"],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Register routers
+app.include_router(skills_router)
+app.include_router(auth_router)
+app.include_router(api_auth_router)  # Better Auth compatible endpoints
+app.include_router(profile_router)
+
+# Initialize main orchestrator agent
+orchestrator = MainOrchestratorAgent()
 
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 QDRANT_URL = os.getenv("QDRANT_URL")
@@ -58,6 +97,87 @@ def search_qdrant(query_text, top_k=3):
 @app.get("/")
 def home():
     return {"status": "FastAPI is running"}
+
+
+@app.post("/api/chatbot")
+def chatbot_query(req: ChatbotRequest, request: Request):
+    """Unified chatbot endpoint with skill-based routing and personalization.
+
+    Personalization flow:
+    1. Check for session cookie to identify authenticated users
+    2. Fetch user profile if authenticated
+    3. Pass profile to orchestrator for personalized responses
+
+    Args:
+        req: ChatbotRequest with query and optional skill
+        request: FastAPI request object for cookie access
+
+    Returns:
+        JSON with 'response' key containing generated text,
+        plus 'personalized' flag and optional 'greeting'
+    """
+    try:
+        if not req.query or not req.query.strip():
+            return {"response": "Please provide a question or topic."}
+
+        # Try to get user profile for personalization
+        user_profile = None
+        user_id = None
+
+        # Check for authenticated session via cookie
+        token = get_session_token(request)
+        if token:
+            user = AuthService.validate_session(token)
+            if user:
+                user_id = user['id']
+
+        # Also accept user_id in request body (for testing)
+        if req.user_id:
+            user_id = req.user_id
+
+        # Fetch profile if we have a user
+        if user_id:
+            user_profile = ProfileService.get_profile(user_id)
+
+        # Route with personalization context
+        result = orchestrator.route(req.query, req.skill, user_profile)
+
+        # Add personalization metadata to response
+        result["personalized"] = user_profile is not None
+
+        return result
+
+    except ValueError as e:
+        return {"response": str(e), "personalized": False}
+    except Exception as e:
+        import traceback
+        print(f"ERROR: {str(e)}")
+        traceback.print_exc()
+        return {"response": f"Error: {str(e)}", "personalized": False}
+
+
+@app.get("/api/chatbot/greeting")
+def get_chatbot_greeting(request: Request):
+    """Get personalized greeting for the chatbot.
+
+    Returns different greetings for guests vs authenticated users.
+    """
+    user_profile = None
+
+    # Check for authenticated session
+    token = get_session_token(request)
+    if token:
+        user = AuthService.validate_session(token)
+        if user:
+            user_profile = ProfileService.get_profile(user['id'])
+
+    greeting = orchestrator.get_personalized_greeting(user_profile)
+
+    return {
+        "greeting": greeting,
+        "is_authenticated": user_profile is not None
+    }
+
 
 @app.post("/ingest")
 def run_ingestion():

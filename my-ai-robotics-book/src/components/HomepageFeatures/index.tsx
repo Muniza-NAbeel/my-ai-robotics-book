@@ -3,9 +3,12 @@ import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import styles from "../../pages/index.module.css";
+import { useAuth } from "../Auth/AuthProvider";
 
 // ---------- HERO SECTION ----------
 function HomepageHeader() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
@@ -13,16 +16,14 @@ function HomepageHeader() {
         <p className="hero__subtitle">
           A comprehensive guide to building embodied AI systems using ROS 2,
         </p>
-
-      <div className={styles.heroButtons}>
-  <Link
-    className={`${styles.heroBtn} button button--secondary button--lg`}
-    to={useBaseUrl("/docs/intro-foundations/intro")}
-  >
-    Get Started →
-  </Link>
-</div>
-
+        <div className={styles.heroButtons}>
+          <Link
+            className={`${styles.heroBtn} button button--secondary button--lg`}
+            to={isAuthenticated ? "/docs/intro-foundations/intro" : "/signup"}
+          >
+            {isAuthenticated ? "Start Reading" : "Get Started"}
+          </Link>
+        </div>
       </div>
     </header>
   );
@@ -30,6 +31,8 @@ function HomepageHeader() {
 
 // ---------- FEATURES (CARDS) ----------
 function HomepageFeatures() {
+  const { isAuthenticated } = useAuth();
+
   const chapters = [
     {
       title: "Chapter 1: Introduction Foundations",
@@ -77,7 +80,7 @@ function HomepageFeatures() {
             <p>{chapter.description}</p>
             <Link
               className="button button--primary button--md"
-              to={useBaseUrl(chapter.link)}
+              to={isAuthenticated ? chapter.link : "/signup"}
             >
               Read →
             </Link>

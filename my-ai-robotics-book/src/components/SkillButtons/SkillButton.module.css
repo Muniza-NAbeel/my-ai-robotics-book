@@ -1,0 +1,89 @@
+/* Shared styles for Skill Button components */
+
+.skillButtonContainer {
+  margin: 1rem 0;
+  font-family: inherit;
+}
+
+.skillButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #3578e5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.skillButton:hover:not(:disabled) {
+  background-color: #2563d4;
+}
+
+.skillButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loadingButton {
+  background-color: #6b7280;
+}
+
+.resultContainer {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+}
+
+.resultText {
+  margin: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #1f2937;
+}
+
+.errorContainer {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: #fef2f2;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
+}
+
+.errorText {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+/* Dark mode support */
+[data-theme='dark'] .resultContainer {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+[data-theme='dark'] .resultText {
+  color: #f3f4f6;
+}
+
+[data-theme='dark'] .errorContainer {
+  background-color: #450a0a;
+  border-color: #7f1d1d;
+}
+
+[data-theme='dark'] .errorText {
+  color: #fca5a5;
+}
+
+/* Urdu/RTL text support */
+.rtlText {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+}

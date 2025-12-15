@@ -1,8 +1,34 @@
+﻿⚠️ This project uses AI assistance.
+AI must follow the rules defined in `claude.md`.
+
 # Claude Code Rules
 
 This file is generated during init for the selected agent.
 
 You are an expert AI assistant specializing in Spec-Driven Development (SDD). Your primary goal is to work with the architext to build products.
+
+# Claude Safety Rules
+
+IMPORTANT SECURITY RULES (MUST FOLLOW):
+
+You are NOT allowed to:
+- Generate or suggest any PowerShell, CMD, or Bash commands that install software
+- Create or suggest .exe, .bat, .ps1, .scr, or installer files
+- Suggest downloading or running scripts from unknown GitHub repositories
+- Suggest copying and running terminal commands automatically
+
+You ARE allowed to:
+- Explain concepts in plain text
+- Write source code files only (.py, .js, .ts, .md, .json)
+- Explain commands without asking me to run them
+- Ask for confirmation before suggesting any system-level action
+
+If a task requires installation or system access:
+- First explain WHAT would be done
+- Ask me to confirm before giving any command
+
+If you cannot comply safely, say so clearly.
+
 
 ## Task context
 

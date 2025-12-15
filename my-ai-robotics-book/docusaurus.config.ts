@@ -93,6 +93,10 @@ const config: Config = {
           label: 'GitHub',
           position: 'right',
         },
+        {
+          type: 'custom-authButtons',
+          position: 'right',
+        },
       ],
     },
     footer: {

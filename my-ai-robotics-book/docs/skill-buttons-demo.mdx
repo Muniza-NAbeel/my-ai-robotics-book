@@ -1,0 +1,93 @@
+---
+sidebar_position: 2
+title: Skill Buttons Demo
+description: Interactive demo of all AI skill buttons
+---
+
+import {
+  GlossaryButton,
+  DiagramButton,
+  TranslateButton,
+  ExercisesButton,
+} from '@site/src/components/SkillButtons';
+
+# Skill Buttons Demo
+
+This page demonstrates all four AI-powered skill buttons available in the book.
+
+:::info Prerequisites
+Make sure the backend server is running at `http://localhost:8000` before testing these buttons.
+
+```bash
+cd backend && uvicorn main:app --reload
+```
+:::
+
+## 1. Glossary Button
+
+Get instant definitions for robotics and AI terms.
+
+<GlossaryButton term="Robot" />
+
+<GlossaryButton term="Neural Network" />
+
+<GlossaryButton term="Sensor" />
+
+---
+
+## 2. Diagram Button
+
+Generate ASCII diagrams for technical concepts.
+
+<DiagramButton topic="Robot Architecture" />
+
+<DiagramButton topic="Neural Network" />
+
+<DiagramButton topic="AI System" />
+
+---
+
+## 3. Translate Button
+
+Translate English text to Urdu.
+
+<TranslateButton text="A robot is a machine that can perform tasks automatically." />
+
+<TranslateButton text="Artificial intelligence helps robots learn from experience." />
+
+---
+
+## 4. Exercises Button
+
+Generate practice questions at different difficulty levels.
+
+<ExercisesButton chapter="Introduction to Sensors: Sensors are devices that detect and respond to physical input from the environment. Common types include proximity sensors, light sensors, and temperature sensors." />
+
+<ExercisesButton chapter="Robot Controllers: A robot controller is the brain of a robotic system. It processes sensor data and sends commands to actuators." />
+
+---
+
+## Integration Instructions
+
+To add these buttons to your own pages, import them like this:
+
+```jsx
+import {
+  GlossaryButton,
+  DiagramButton,
+  TranslateButton,
+  ExercisesButton,
+} from '@site/src/components/SkillButtons';
+
+// Then use in your MDX content:
+<GlossaryButton term="Robot" />
+<DiagramButton topic="Neural Network" />
+<TranslateButton text="Hello world" />
+<ExercisesButton chapter="Your chapter content here" />
+```
+
+Each button accepts a single prop:
+- `GlossaryButton`: `term` - the technical term to define
+- `DiagramButton`: `topic` - the concept to diagram
+- `TranslateButton`: `text` - English text to translate to Urdu
+- `ExercisesButton`: `chapter` - chapter content to generate questions from
