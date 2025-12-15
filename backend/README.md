@@ -1,6 +1,6 @@
 ---
 title: AI Robotics Book Backend
-emoji: 🤖
+emoji: robot
 colorFrom: blue
 colorTo: purple
 sdk: docker
